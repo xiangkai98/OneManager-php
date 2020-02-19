@@ -305,7 +305,7 @@ language:<br>';
 
 function HerokuAPI($method, $url, $data = '', $apikey)
 {
-    if ($method=='PATCH') {
+    if ($method=='PATCH'||$method=='POST') {
         $headers['Content-Type'] = 'application/json';
     } 
     $headers['Authorization'] = 'Bearer ' . $apikey;
@@ -348,6 +348,13 @@ function setHerokuConfig($env, $function_name, $apikey)
     return HerokuAPI('PATCH', 'https://api.heroku.com/apps/' . $function_name . '/config-vars', $data, $apikey);
 }
 
+function updateHerokuapp($function_name, $apikey)
+{
+    $tmp['source_blob']['url'] = 'https://github.com/qkqpttgf/OneManager-php/tarball/master/';
+    $data = json_encode($tmp);
+    return HerokuAPI('POST', 'https://api.heroku.com/apps/' . $function_name . '/builds', $data, $apikey);
+}
+
 function EnvOpt($function_name, $needUpdate = 0)
 {
     global $constStr;
@@ -357,15 +364,13 @@ function EnvOpt($function_name, $needUpdate = 0)
     asort($commonEnv);
     asort($ShowedinnerEnv);
     $html = '<title>OneManager '.getconstStr('Setup').'</title>';
-    /*if ($_POST['updateProgram']==getconstStr('updateProgram')) {
-        $response = json_decode(updataProgram($function_name, $Region, $namespace), true)['Response'];
-        if (isset($response['Error'])) {
-            $html = $response['Error']['Code'] . '<br>
-' . $response['Error']['Message'] . '<br><br>
+    if ($_POST['updateProgram']==getconstStr('updateProgram')) {
+        $response = json_decode(updateHerokuapp(getConfig('function_name'), getConfig('APIKey'))['body'], true);
+        if (isset($response['id'])&&isset($response['message'])) {
+            $html = $response['id'] . '<br>
+' . $response['message'] . '<br><br>
 function_name:' . $_SERVER['function_name'] . '<br>
-Region:' . $_SERVER['Region'] . '<br>
-namespace:' . $namespace . '<br>
-<button onclick="location.href = location.href;">'.getconstStr('Reflesh').'</button>';
+<button onclick="location.href = location.href;">'.$constStr['Reflesh'][$constStr['language']].'</button>';
             $title = 'Error';
         } else {
             $html .= getconstStr('UpdateSuccess') . '<br>
@@ -373,7 +378,7 @@ namespace:' . $namespace . '<br>
             $title = getconstStr('Setup');
         }
         return message($html, $title);
-    }*/
+    }
     if ($_POST['submit1']) {
         foreach ($_POST as $k => $v) {
             if (in_array($k, $constEnv)) {
@@ -399,10 +404,12 @@ namespace:' . $namespace . '<br>
             }
             $tmp['domain_path'] = $tmparr;
         }*/
-        $response = setConfig($tmp, $_SERVER['disk_oprating']);
-        if (!$response) {
-            $html = $response . '<br>
-<button onclick="location.href = location.href;">'.getconstStr('Reflesh').'</button>';
+        $response = json_decode(setConfig($tmp, $_SERVER['disk_oprating'])['body'], true);
+        if (isset($response['id'])&&isset($response['message'])) {
+            $html = $response['id'] . '<br>
+' . $response['message'] . '<br><br>
+function_name:' . $_SERVER['function_name'] . '<br>
+<button onclick="location.href = location.href;">'.$constStr['Reflesh'][$constStr['language']].'</button>';
             $title = 'Error';
         } else {
             $html .= '<script>location.href=location.href</script>';
@@ -416,14 +423,14 @@ namespace:' . $namespace . '<br>
     $html .= '
         <a href="'.$preurl.'">'.getconstStr('Back').'</a>&nbsp;&nbsp;&nbsp;<a href="/'.$_SERVER['base_path'].'">'.getconstStr('Back').getconstStr('Home').'</a><br>
         <a href="https://github.com/qkqpttgf/OneManager-php">Github</a><br>';
-    /*if ($needUpdate) {
+    if ($needUpdate) {
         $html .= '<pre>' . $_SERVER['github_version'] . '</pre>
         <form action="" method="post">
             <input type="submit" name="updateProgram" value="'.getconstStr('updateProgram').'">
         </form>';
     } else {
         $html .= getconstStr('NotNeedUpdate');
-    }*/
+    }
     $html .= '<br>
     <table border=1 width=100%>
     <form name="common" action="" method="post">
