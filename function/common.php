@@ -410,8 +410,8 @@ function main($path)
 {
     global $exts;
     global $constStr;
-echo 'main.enterpath:'.$path.'
-';
+//echo 'main.enterpath:'.$path.'
+//';
     $constStr['language'] = $_COOKIE['language'];
     if ($constStr['language']=='') $constStr['language'] = getConfig('language');
     if ($constStr['language']=='') $constStr['language'] = 'en-us';
@@ -425,7 +425,7 @@ echo 'main.enterpath:'.$path.'
         $pos = strpos($path, '/');
         if ($pos>1) $_SERVER['disktag'] = substr($path, 0, $pos);
         $path = substr($path, strlen('/'.$_SERVER['disktag']));
-        if ($_SERVER['disktag']!='') $_SERVER['base_disk_path'] .= '/' . $_SERVER['disktag'];
+        if ($_SERVER['disktag']!='') $_SERVER['base_disk_path'] = path_format($_SERVER['base_disk_path']. '/' . $_SERVER['disktag'] . '/');
     } else $_SERVER['disktag'] = $disktags[0];
 //    echo 'main.disktag:'.$_SERVER['disktag'].'，path:'.$path.'
 //';

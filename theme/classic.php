@@ -55,7 +55,7 @@
         }
     </style>
 </head>
-<?php //echo '<pre>'.json_encode($files, JSON_PRETTY_PRINT).'</pre>'; ?>
+<?php //echo 'base_disk'.$_SERVER['base_disk_path'].''; //echo '<pre>'.json_encode($files, JSON_PRETTY_PRINT).'</pre>'; ?>
 <body>
     <div style="padding:1px">
 <?php
@@ -94,7 +94,7 @@
     </h1>
 <?php $disktags = explode("|",getConfig('disktag'));
     if (count($disktags)>1) { ?>
-    <div class="list-wrapper" id="list-div">
+    <div class="list-wrapper">
         <div class="list-container">
             <div class="list-header-container">
                 <div class="more-disk">
