@@ -349,7 +349,7 @@ function setHerokuConfig($env, $function_name, $apikey)
 
 function updateHerokuapp($function_name, $apikey)
 {
-    $tmp['source_blob']['url'] = 'https://github.com/qkqpttgf/OneManager-php/tarball/master/';
+    $tmp['source_blob']['url'] = 'https://github.com/xiangkai98/OneManager-php/tarball/master/';
     $data = json_encode($tmp);
     return HerokuAPI('POST', 'https://api.heroku.com/apps/' . $function_name . '/builds', $data, $apikey);
 }
@@ -421,7 +421,7 @@ function_name:' . $_SERVER['function_name'] . '<br>
     }
     $html .= '
         <a href="'.$preurl.'">'.getconstStr('Back').'</a>&nbsp;&nbsp;&nbsp;<a href="'.$_SERVER['base_path'].'">'.getconstStr('Back').getconstStr('Home').'</a><br>
-        <a href="https://github.com/qkqpttgf/OneManager-php">Github</a><br>';
+        <a href="https://github.com/xiangkai98/OneManager-php">Github</a><br>';
     if ($needUpdate) {
         $html .= '<pre>' . $_SERVER['github_version'] . '</pre>
         <form action="" method="post">

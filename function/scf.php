@@ -481,7 +481,7 @@ function updateProgram($function_name, $Region, $Namespace, $SecretId, $SecretKe
     $meth = 'POST';
     $host = 'scf.tencentcloudapi.com';
     $tmpdata['Action'] = 'UpdateFunctionCode';
-    $tmpdata['Code.GitUrl'] = 'https://github.com/qkqpttgf/OneManager-php';
+    $tmpdata['Code.GitUrl'] = 'https://github.com/xiangkai98/OneManager-php';
     $tmpdata['CodeSource'] = 'Git';
     $tmpdata['FunctionName'] = $function_name;
     $tmpdata['Handler'] = 'index.main_handler';
@@ -567,7 +567,7 @@ namespace:' . $_SERVER['namespace'] . '<br>
     }
     $html .= '
         <a href="'.$preurl.'">'.getconstStr('Back').'</a>&nbsp;&nbsp;&nbsp;<a href="'.$_SERVER['base_path'].'">'.getconstStr('Back').getconstStr('Home').'</a><br>
-        <a href="https://github.com/qkqpttgf/OneManager-php">Github</a><br>';
+        <a href="https://github.com/xiangkai98/OneManager-php">Github</a><br>';
     if ($needUpdate) {
         $html .= '<pre>' . $_SERVER['github_version'] . '</pre>
         <form action="" method="post">
